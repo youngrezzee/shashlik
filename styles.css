@@ -37,7 +37,8 @@ select {
 
 .hero {
   position: relative;
-  min-height: clamp(420px, 62vh, 700px);
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: end;
   overflow: hidden;
@@ -62,7 +63,7 @@ select {
   position: relative;
   width: min(1120px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 72px 0 88px;
+  padding: 72px 0 108px;
   color: #fff7ed;
 }
 
@@ -393,10 +394,6 @@ li::marker {
 }
 
 @media (max-width: 560px) {
-  .hero {
-    min-height: 500px;
-  }
-
   .hero__content,
   .planner {
     width: min(100% - 24px, 1120px);
