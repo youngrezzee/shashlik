@@ -47,10 +47,31 @@ select {
 .hero__media {
   position: absolute;
   inset: 0;
-  background-image: url("assets/shashlik-hero.png");
   background-size: cover;
   background-position: center;
+  opacity: 0;
   transform: scale(1.02);
+  transition: opacity 1200ms ease;
+}
+
+.hero__media.is-active {
+  opacity: 1;
+}
+
+.hero__media--prep {
+  background-image: url("assets/shashlik-hero-prep.png");
+}
+
+.hero__media--grill {
+  background-image: url("assets/shashlik-hero-grill.png");
+}
+
+.hero__media--table {
+  background-image: url("assets/shashlik-hero.png");
+}
+
+.hero__media--served {
+  background-image: url("assets/shashlik-hero-served.png");
 }
 
 .hero__shade {
@@ -390,6 +411,12 @@ li::marker {
 
   .results-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media {
+    transition: none;
   }
 }
 

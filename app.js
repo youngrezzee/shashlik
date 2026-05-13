@@ -58,7 +58,7 @@ const styles = {
   },
   classic: {
     label: "классический маринад",
-    extras: ["лавровый лист", "черный перец", "уксус или лимон по желанию"]
+    extras: ["лавровый лист", "чёрный перец", "уксус или лимон по желанию"]
   },
   kefir: {
     label: "кефирный маринад",
@@ -66,7 +66,7 @@ const styles = {
   },
   spicy: {
     label: "острый маринад",
-    extras: ["аджика", "копченая паприка", "перец чили"]
+    extras: ["аджика", "копчёная паприка", "перец чили"]
   },
   dry: {
     label: "сухой руб",
@@ -78,12 +78,12 @@ const spiceCatalog = [
   {
     category: "Перцы и паприка",
     items: [
-      ["black-pepper", "Черный перец", 1.2],
+      ["black-pepper", "Чёрный перец", 1.2],
       ["white-pepper", "Белый перец", 0.8],
       ["pink-pepper", "Розовый перец", 0.7],
       ["allspice", "Душистый перец", 0.7],
       ["sweet-paprika", "Сладкая паприка", 2.5],
-      ["smoked-paprika", "Копченая паприка", 2],
+      ["smoked-paprika", "Копчёная паприка", 2],
       ["hot-paprika", "Острая паприка", 1],
       ["chili-flakes", "Хлопья чили", 0.6],
       ["cayenne", "Кайенский перец", 0.35]
@@ -115,17 +115,17 @@ const spiceCatalog = [
       ["marjoram", "Майоран", 0.7],
       ["tarragon", "Эстрагон", 0.7],
       ["savory", "Чабер", 0.7],
-      ["mint", "Мята сушеная", 0.45],
+      ["mint", "Мята сушёная", 0.45],
       ["dill-seed", "Семена укропа", 0.7]
     ]
   },
   {
     category: "Овощная сухая база",
     items: [
-      ["garlic", "Сушеный чеснок", 2],
+      ["garlic", "Сушёный чеснок", 2],
       ["onion-powder", "Луковый порошок", 1.7],
       ["mustard", "Горчичный порошок", 1.2],
-      ["celery", "Сельдерей сушеный", 0.8],
+      ["celery", "Сельдерей сушёный", 0.8],
       ["tomato", "Томатный порошок", 2],
       ["ginger", "Имбирь", 0.7],
       ["lemon-pepper", "Лимонный перец", 1.5]
@@ -157,6 +157,7 @@ const spiceCatalog = [
 
 const coreSpices = ["black-pepper", "sweet-paprika", "coriander", "garlic", "onion-powder"];
 
+const heroSlides = document.querySelectorAll(".hero__media");
 const form = document.querySelector("#plannerForm");
 const quickButtons = document.querySelectorAll(".quick");
 const cookDate = document.querySelector("#cookDate");
@@ -228,6 +229,19 @@ function renderList(target, items) {
     li.textContent = item;
     target.append(li);
   });
+}
+
+function startHeroSlider() {
+  if (heroSlides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  let activeSlide = 0;
+  setInterval(() => {
+    heroSlides[activeSlide].classList.remove("is-active");
+    activeSlide = (activeSlide + 1) % heroSlides.length;
+    heroSlides[activeSlide].classList.add("is-active");
+  }, 6500);
 }
 
 function flattenSpices() {
@@ -307,10 +321,10 @@ function buildPlan(daysLeft, recipe, style, dateLabel) {
   const [minHours, maxHours] = recipe.marinate;
   const start = getStartText(daysLeft, maxHours);
   const plan = [
-    `Купить продукты и нарезать мясо ровными кусками за ${daysLeft > 1 ? "день до маринада" : "пару часов до маринада"}.`,
+    `Купить продукты и нарезать мясо ровными кусками за ${daysLeft > 1 ? "день до маринования" : "пару часов до маринования"}.`,
     `Замариновать: ${start}; оптимальное окно ${minHours}-${maxHours} ч.`,
     `В день готовки (${dateLabel}) достать мясо за 40-60 минут до жара.`,
-    `Жарить: ${recipe.heat}. Соленый маринад не выливать на угли.`
+    `Жарить: ${recipe.heat}. Солёный маринад не выливать на угли.`
   ];
 
   if (style === "dry") {
@@ -365,7 +379,7 @@ function calculate() {
   const baseLine = styleKey === "dry"
     ? "масло для сухого руба"
     : styleKey === "custom"
-      ? "масло для связки выбранных специй"
+      ? "масло, чтобы связать выбранные специи"
       : recipe.baseName;
 
   if (styleKey === "custom" && spiceLines.length === 0) {
@@ -379,7 +393,7 @@ function calculate() {
     `${formatMl(base)}: ${baseLine}`,
     `${formatMl(oil)} растительного масла`,
     ...spiceLines,
-    "уголь, розжиг, шампуры или решетка",
+    "уголь, розжиг, шампуры или решётка",
     "овощи, зелень, лаваш и соус"
   ];
 
@@ -450,5 +464,6 @@ copyButton.addEventListener("click", async () => {
 });
 
 renderSpiceOptions();
+startHeroSlider();
 cookDate.value = toInputDate(addDays(1));
 calculate();

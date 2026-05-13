@@ -9,12 +9,15 @@
   <body>
     <main class="shell">
       <section class="hero" aria-label="Планировщик шашлыка">
-        <div class="hero__media" aria-hidden="true"></div>
+        <div class="hero__media hero__media--prep is-active" aria-hidden="true"></div>
+        <div class="hero__media hero__media--grill" aria-hidden="true"></div>
+        <div class="hero__media hero__media--table" aria-hidden="true"></div>
+        <div class="hero__media hero__media--served" aria-hidden="true"></div>
         <div class="hero__shade"></div>
         <div class="hero__content">
           <p class="kicker">Маринад, тайминг, покупки</p>
           <h1>Планировщик шашлыка</h1>
-          <p class="lead">Выберите мясо, вес и день готовки. Сайт посчитает соль, специи, маринад и подскажет, когда пора начинать.</p>
+          <p class="lead">Выберите мясо, вес и дату готовки. Сайт посчитает соль, специи, маринад и подскажет, когда пора начинать.</p>
         </div>
       </section>
 
@@ -54,7 +57,7 @@
 
           <fieldset class="spice-module">
             <legend>Модуль специй</legend>
-            <p class="field-note">Отмечайте специи для любого маринада. Граммовка пересчитается по весу мяса.</p>
+            <p class="field-note">Отмечайте специи для любого маринада. Количество пересчитается по весу мяса.</p>
             <div class="spice-toolbar">
               <button type="button" class="small-button" id="selectCoreSpices">База</button>
               <button type="button" class="small-button" id="clearSpices">Очистить</button>
@@ -63,7 +66,7 @@
           </fieldset>
 
           <fieldset class="toggle-group">
-            <legend>Когда жарите?</legend>
+            <legend>Когда будете жарить?</legend>
             <button type="button" class="quick active" data-offset="1">Завтра</button>
             <button type="button" class="quick" data-offset="3">Через 3 дня</button>
             <button type="button" class="quick" data-offset="0">Сегодня</button>
@@ -83,15 +86,15 @@
 
           <div class="timeline">
             <div>
-              <span class="label">До готовки</span>
+              <span class="label">Осталось</span>
               <strong id="daysLeft">1 день</strong>
             </div>
             <div>
-              <span class="label">Мариновать</span>
+              <span class="label">Время маринования</span>
               <strong id="marinateWindow">12-18 часов</strong>
             </div>
             <div>
-              <span class="label">Начать</span>
+              <span class="label">Начать мариновать</span>
               <strong id="startTime">сегодня вечером</strong>
             </div>
           </div>
