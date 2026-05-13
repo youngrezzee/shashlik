@@ -340,9 +340,9 @@ function calculate() {
   const selectedSpices = getSelectedSpices(weight);
 
   const salt = recipe.salt * weight;
-  const spices = styleKey === "custom"
-    ? selectedSpices.reduce((total, spice) => total + spice.total, 0)
-    : recipe.spices * weight;
+  const baseSpices = styleKey === "custom" ? 0 : recipe.spices * weight;
+  const extraSpices = selectedSpices.reduce((total, spice) => total + spice.total, 0);
+  const spices = baseSpices + extraSpices;
   const onion = recipe.onion * weight;
   const base = styleKey === "dry" || styleKey === "custom" ? 35 * weight : recipe.base * weight;
   const oil = styleKey === "dry" ? 35 * weight : 25 * weight;
@@ -358,9 +358,10 @@ function calculate() {
   output.onion.textContent = formatWeight(onion);
   output.marinade.textContent = formatMl(base);
 
+  const selectedSpiceLines = selectedSpices.map((spice) => `${Math.max(1, Math.round(spice.total))} г: ${spice.name}`);
   const spiceLines = styleKey === "custom"
-    ? selectedSpices.map((spice) => `${Math.max(1, Math.round(spice.total))} г: ${spice.name}`)
-    : [`${Math.round(spices)} г смеси специй`, ...style.extras];
+    ? selectedSpiceLines
+    : [`${Math.round(baseSpices)} г базовой смеси специй`, ...style.extras, ...selectedSpiceLines];
   const baseLine = styleKey === "dry"
     ? "масло для сухого руба"
     : styleKey === "custom"
@@ -408,7 +409,6 @@ selectCoreSpices.addEventListener("click", () => {
   form.querySelectorAll('input[name="spice"]').forEach((input) => {
     input.checked = coreSpices.includes(input.value);
   });
-  document.querySelector("#style").value = "custom";
   calculate();
 });
 
@@ -416,7 +416,6 @@ clearSpices.addEventListener("click", () => {
   form.querySelectorAll('input[name="spice"]').forEach((input) => {
     input.checked = false;
   });
-  document.querySelector("#style").value = "custom";
   calculate();
 });
 
