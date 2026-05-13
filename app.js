@@ -1,6 +1,7 @@
 const recipes = {
   pork: {
     name: "свинины",
+    nutrition: { kcal: 259, protein: 16, fat: 21.6, carbs: 0 },
     salt: 18,
     spices: 7,
     onion: 0.5,
@@ -11,6 +12,7 @@ const recipes = {
   },
   chicken: {
     name: "курицы",
+    nutrition: { kcal: 190, protein: 18.2, fat: 12, carbs: 0 },
     salt: 16,
     spices: 6,
     onion: 0.35,
@@ -19,8 +21,20 @@ const recipes = {
     marinate: [4, 10],
     heat: "средний жар, 12-16 минут"
   },
+  turkey: {
+    name: "индейки",
+    nutrition: { kcal: 144, protein: 21.6, fat: 5.6, carbs: 0 },
+    salt: 16,
+    spices: 6,
+    onion: 0.3,
+    base: 95,
+    baseName: "кефир или йогурт",
+    marinate: [6, 12],
+    heat: "средний жар, 14-18 минут"
+  },
   beef: {
     name: "говядины",
+    nutrition: { kcal: 218, protein: 18.6, fat: 16, carbs: 0 },
     salt: 19,
     spices: 8,
     onion: 0.45,
@@ -31,6 +45,7 @@ const recipes = {
   },
   lamb: {
     name: "баранины",
+    nutrition: { kcal: 209, protein: 15.6, fat: 16.3, carbs: 0 },
     salt: 18,
     spices: 8,
     onion: 0.55,
@@ -39,15 +54,65 @@ const recipes = {
     marinate: [10, 18],
     heat: "сильный жар, 12-18 минут"
   },
-  fish: {
-    name: "рыбы",
+  salmon: {
+    name: "лосося",
+    type: "fish",
+    nutrition: { kcal: 208, protein: 20, fat: 13, carbs: 0 },
     salt: 14,
     spices: 5,
     onion: 0.15,
     base: 45,
     baseName: "лимонный сок и масло",
     marinate: [0.5, 2],
-    heat: "умеренный жар, 6-10 минут"
+    heat: "умеренный жар, 7-10 минут"
+  },
+  trout: {
+    name: "форели",
+    type: "fish",
+    nutrition: { kcal: 148, protein: 20.5, fat: 6.6, carbs: 0 },
+    salt: 14,
+    spices: 5,
+    onion: 0.15,
+    base: 45,
+    baseName: "лимонный сок и масло",
+    marinate: [0.5, 2],
+    heat: "умеренный жар, 7-10 минут"
+  },
+  cod: {
+    name: "трески",
+    type: "fish",
+    nutrition: { kcal: 82, protein: 17.9, fat: 0.7, carbs: 0 },
+    salt: 13,
+    spices: 4,
+    onion: 0.12,
+    base: 40,
+    baseName: "лимонный сок и масло",
+    marinate: [0.3, 1.5],
+    heat: "мягкий жар, 5-8 минут"
+  },
+  mackerel: {
+    name: "скумбрии",
+    type: "fish",
+    nutrition: { kcal: 191, protein: 18, fat: 13.2, carbs: 0 },
+    salt: 14,
+    spices: 6,
+    onion: 0.15,
+    base: 45,
+    baseName: "лимонный сок и масло",
+    marinate: [0.5, 2],
+    heat: "умеренный жар, 8-12 минут"
+  },
+  pikeperch: {
+    name: "судака",
+    type: "fish",
+    nutrition: { kcal: 84, protein: 18.4, fat: 1.1, carbs: 0 },
+    salt: 13,
+    spices: 4,
+    onion: 0.12,
+    base: 40,
+    baseName: "лимонный сок и масло",
+    marinate: [0.3, 1.5],
+    heat: "мягкий жар, 5-8 минут"
   }
 };
 
@@ -157,6 +222,18 @@ const spiceCatalog = [
 
 const coreSpices = ["black-pepper", "sweet-paprika", "coriander", "garlic", "onion-powder"];
 
+const ingredientNutrition = {
+  onion: { kcal: 40, protein: 1.1, fat: 0.1, carbs: 9.3 },
+  oil: { kcal: 899, protein: 0, fat: 99.9, carbs: 0 },
+  kefir: { kcal: 53, protein: 3, fat: 2.5, carbs: 4 },
+  yogurt: { kcal: 61, protein: 3.5, fat: 3.3, carbs: 4.7 },
+  ayran: { kcal: 27, protein: 1.1, fat: 1.5, carbs: 2.5 },
+  mineral: { kcal: 0, protein: 0, fat: 0, carbs: 0 },
+  pomegranate: { kcal: 64, protein: 0.3, fat: 0, carbs: 14.5 },
+  lemonOil: { kcal: 300, protein: 0, fat: 30, carbs: 6 },
+  spices: { kcal: 280, protein: 10, fat: 9, carbs: 40 }
+};
+
 const heroSlides = document.querySelectorAll(".hero__media");
 const form = document.querySelector("#plannerForm");
 const quickButtons = document.querySelectorAll(".quick");
@@ -175,6 +252,11 @@ const output = {
   spices: document.querySelector("#spices"),
   onion: document.querySelector("#onion"),
   marinade: document.querySelector("#marinade"),
+  calories: document.querySelector("#calories"),
+  protein: document.querySelector("#protein"),
+  fat: document.querySelector("#fat"),
+  carbs: document.querySelector("#carbs"),
+  nutritionNote: document.querySelector("#nutritionNote"),
   shoppingList: document.querySelector("#shoppingList"),
   stepsList: document.querySelector("#stepsList")
 };
@@ -220,6 +302,32 @@ function formatWeight(value) {
 
 function formatMl(value) {
   return value >= 1000 ? `${round(value / 1000, 1)} л` : `${Math.round(value)} мл`;
+}
+
+function addNutrition(total, nutrition, grams) {
+  const factor = grams / 100;
+  total.kcal += nutrition.kcal * factor;
+  total.protein += nutrition.protein * factor;
+  total.fat += nutrition.fat * factor;
+  total.carbs += nutrition.carbs * factor;
+}
+
+function getBaseNutrition(styleKey, recipe) {
+  if (styleKey === "kefir") return ingredientNutrition.kefir;
+  if (recipe === recipes.lamb) return ingredientNutrition.pomegranate;
+  if (recipe.type === "fish") return ingredientNutrition.lemonOil;
+  if (recipe.baseName.includes("айран")) return ingredientNutrition.ayran;
+  return ingredientNutrition.mineral;
+}
+
+function calculateNutrition({ recipe, styleKey, weight, onion, base, oil, spices }) {
+  const total = { kcal: 0, protein: 0, fat: 0, carbs: 0 };
+  addNutrition(total, recipe.nutrition, weight * 1000);
+  addNutrition(total, ingredientNutrition.onion, onion * 1000);
+  addNutrition(total, ingredientNutrition.oil, oil);
+  addNutrition(total, getBaseNutrition(styleKey, recipe), base);
+  addNutrition(total, ingredientNutrition.spices, spices);
+  return total;
 }
 
 function renderList(target, items) {
@@ -335,7 +443,7 @@ function buildPlan(daysLeft, recipe, style, dateLabel) {
     plan[1] = `Собрать свой набор специй, смешать с солью и маслом, затем замариновать: ${start}; окно ${minHours}-${maxHours} ч.`;
   }
 
-  if (recipe === recipes.fish) {
+  if (recipe.type === "fish") {
     plan[1] = "Мариновать рыбу коротко: 30-120 минут перед жаркой, иначе кислота начнет менять текстуру.";
   }
 
@@ -371,6 +479,13 @@ function calculate() {
   output.spices.textContent = `${Math.round(spices)} г`;
   output.onion.textContent = formatWeight(onion);
   output.marinade.textContent = formatMl(base);
+
+  const nutrition = calculateNutrition({ recipe, styleKey, weight, onion, base, oil, spices });
+  output.calories.textContent = `${Math.round(nutrition.kcal)} ккал`;
+  output.protein.textContent = `${Math.round(nutrition.protein)} г`;
+  output.fat.textContent = `${Math.round(nutrition.fat)} г`;
+  output.carbs.textContent = `${Math.round(nutrition.carbs)} г`;
+  output.nutritionNote.textContent = `примерно на ${round(weight, 1)} кг мяса с маринадом`;
 
   const selectedSpiceLines = selectedSpices.map((spice) => `${Math.max(1, Math.round(spice.total))} г: ${spice.name}`);
   const spiceLines = styleKey === "custom"
@@ -444,6 +559,7 @@ copyButton.addEventListener("click", async () => {
     `План: ${result.headline}`,
     `Дата: ${result.dateLabel}`,
     `Маринад: ${result.style}`,
+    `КБЖУ: ${output.calories.textContent}, белки ${output.protein.textContent}, жиры ${output.fat.textContent}, углеводы ${output.carbs.textContent}`,
     "",
     "Покупки:",
     ...result.shopping.map((item) => `- ${item}`),

@@ -361,7 +361,8 @@ button:focus-visible {
   gap: 10px;
 }
 
-.results-grid article {
+.results-grid article,
+.nutrition-grid article {
   min-height: 96px;
   padding: 16px 12px;
   border-radius: 8px;
@@ -370,6 +371,39 @@ button:focus-visible {
   display: grid;
   align-content: center;
   gap: 8px;
+}
+
+.nutrition {
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdf9;
+}
+
+.nutrition__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.nutrition__head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.nutrition__head span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .metric {
@@ -410,6 +444,10 @@ li::marker {
   }
 
   .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nutrition-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }

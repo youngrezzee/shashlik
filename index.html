@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Планировщик шашлыка</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=fish-1">
   </head>
   <body>
     <main class="shell">
@@ -28,9 +28,16 @@
             <select id="meat" name="meat">
               <option value="pork">Свинина</option>
               <option value="chicken">Курица</option>
+              <option value="turkey">Индейка</option>
               <option value="beef">Говядина</option>
               <option value="lamb">Баранина</option>
-              <option value="fish">Рыба</option>
+              <optgroup label="Рыба">
+                <option value="salmon">Лосось</option>
+                <option value="trout">Форель</option>
+                <option value="cod">Треска</option>
+                <option value="mackerel">Скумбрия</option>
+                <option value="pikeperch">Судак</option>
+              </optgroup>
             </select>
           </div>
 
@@ -118,6 +125,31 @@
             </article>
           </div>
 
+          <div class="nutrition">
+            <div class="nutrition__head">
+              <h3>КБЖУ</h3>
+              <span id="nutritionNote">примерно на весь маринад</span>
+            </div>
+            <div class="nutrition-grid">
+              <article>
+                <span class="metric" id="calories">0 ккал</span>
+                <span class="label">калории</span>
+              </article>
+              <article>
+                <span class="metric" id="protein">0 г</span>
+                <span class="label">белки</span>
+              </article>
+              <article>
+                <span class="metric" id="fat">0 г</span>
+                <span class="label">жиры</span>
+              </article>
+              <article>
+                <span class="metric" id="carbs">0 г</span>
+                <span class="label">углеводы</span>
+              </article>
+            </div>
+          </div>
+
           <div class="list-section">
             <h3>Список покупок</h3>
             <ul id="shoppingList"></ul>
@@ -131,6 +163,6 @@
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=fish-1"></script>
   </body>
 </html>
