@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Планировщик шашлыка</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-label="Планировщик шашлыка">
+        <div class="hero__media" aria-hidden="true"></div>
+        <div class="hero__shade"></div>
+        <div class="hero__content">
+          <p class="kicker">Маринад, тайминг, покупки</p>
+          <h1>Планировщик шашлыка</h1>
+          <p class="lead">Выберите мясо, вес и день готовки. Сайт посчитает соль, специи, маринад и подскажет, когда пора начинать.</p>
+        </div>
+      </section>
+
+      <section class="planner" aria-label="Расчет шашлыка">
+        <form class="panel form-panel" id="plannerForm">
+          <div class="field">
+            <label for="meat">Мясо</label>
+            <select id="meat" name="meat">
+              <option value="pork">Свинина</option>
+              <option value="chicken">Курица</option>
+              <option value="beef">Говядина</option>
+              <option value="lamb">Баранина</option>
+              <option value="fish">Рыба</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="weight">Вес, кг</label>
+            <input id="weight" name="weight" type="number" min="0.3" max="30" step="0.1" value="2.5">
+          </div>
+
+          <div class="field">
+            <label for="cookDate">Дата готовки</label>
+            <input id="cookDate" name="cookDate" type="date">
+          </div>
+
+          <div class="field">
+            <label for="style">Стиль маринада</label>
+            <select id="style" name="style">
+              <option value="custom" selected>Собственный</option>
+              <option value="classic">Классика с луком</option>
+              <option value="kefir">Мягкий кефирный</option>
+              <option value="spicy">Острый пряный</option>
+              <option value="dry">Сухой руб</option>
+            </select>
+          </div>
+
+          <fieldset class="spice-module">
+            <legend>Модуль специй</legend>
+            <p class="field-note">Отмечайте специи для собственного маринада. Граммовка пересчитается по весу мяса.</p>
+            <div class="spice-toolbar">
+              <button type="button" class="small-button" id="selectCoreSpices">База</button>
+              <button type="button" class="small-button" id="clearSpices">Очистить</button>
+            </div>
+            <div class="spice-options" id="spiceOptions"></div>
+          </fieldset>
+
+          <fieldset class="toggle-group">
+            <legend>Когда жарите?</legend>
+            <button type="button" class="quick active" data-offset="1">Завтра</button>
+            <button type="button" class="quick" data-offset="3">Через 3 дня</button>
+            <button type="button" class="quick" data-offset="0">Сегодня</button>
+          </fieldset>
+        </form>
+
+        <aside class="panel summary-panel">
+          <div class="summary-top">
+            <div>
+              <p class="eyebrow">Итог</p>
+              <h2 id="headline">2.5 кг свинины</h2>
+            </div>
+            <button class="icon-button" id="copyButton" type="button" title="Скопировать список" aria-label="Скопировать список">
+              <span aria-hidden="true">⧉</span>
+            </button>
+          </div>
+
+          <div class="timeline">
+            <div>
+              <span class="label">До готовки</span>
+              <strong id="daysLeft">1 день</strong>
+            </div>
+            <div>
+              <span class="label">Мариновать</span>
+              <strong id="marinateWindow">12-18 часов</strong>
+            </div>
+            <div>
+              <span class="label">Начать</span>
+              <strong id="startTime">сегодня вечером</strong>
+            </div>
+          </div>
+
+          <div class="results-grid">
+            <article>
+              <span class="metric" id="salt">45 г</span>
+              <span class="label">соль</span>
+            </article>
+            <article>
+              <span class="metric" id="spices">18 г</span>
+              <span class="label">специи</span>
+            </article>
+            <article>
+              <span class="metric" id="onion">1.3 кг</span>
+              <span class="label">лук</span>
+            </article>
+            <article>
+              <span class="metric" id="marinade">300 мл</span>
+              <span class="label">основа</span>
+            </article>
+          </div>
+
+          <div class="list-section">
+            <h3>Список покупок</h3>
+            <ul id="shoppingList"></ul>
+          </div>
+
+          <div class="list-section">
+            <h3>План действий</h3>
+            <ol id="stepsList"></ol>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
