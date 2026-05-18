@@ -1,0 +1,14 @@
+{
+  "appId": "com.shashlik.planner",
+  "appName": "Планировщик шашлыка",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "buildOptions": {
+      "releaseType": "AAB"
+    }
+  }
+}

@@ -60,7 +60,7 @@ const recipes = {
     nutrition: { kcal: 208, protein: 20, fat: 13, carbs: 0 },
     salt: 14,
     spices: 5,
-    onion: 0.15,
+    onion: 0,
     base: 45,
     baseName: "лимонный сок и масло",
     marinate: [0.5, 2],
@@ -72,7 +72,7 @@ const recipes = {
     nutrition: { kcal: 148, protein: 20.5, fat: 6.6, carbs: 0 },
     salt: 14,
     spices: 5,
-    onion: 0.15,
+    onion: 0,
     base: 45,
     baseName: "лимонный сок и масло",
     marinate: [0.5, 2],
@@ -84,7 +84,7 @@ const recipes = {
     nutrition: { kcal: 82, protein: 17.9, fat: 0.7, carbs: 0 },
     salt: 13,
     spices: 4,
-    onion: 0.12,
+    onion: 0,
     base: 40,
     baseName: "лимонный сок и масло",
     marinate: [0.3, 1.5],
@@ -96,7 +96,7 @@ const recipes = {
     nutrition: { kcal: 191, protein: 18, fat: 13.2, carbs: 0 },
     salt: 14,
     spices: 6,
-    onion: 0.15,
+    onion: 0,
     base: 45,
     baseName: "лимонный сок и масло",
     marinate: [0.5, 2],
@@ -108,7 +108,7 @@ const recipes = {
     nutrition: { kcal: 84, protein: 18.4, fat: 1.1, carbs: 0 },
     salt: 13,
     spices: 4,
-    onion: 0.12,
+    onion: 0,
     base: 40,
     baseName: "лимонный сок и масло",
     marinate: [0.3, 1.5],
@@ -123,20 +123,115 @@ const styles = {
   },
   classic: {
     label: "классический маринад",
-    extras: ["лавровый лист", "чёрный перец", "уксус или лимон по желанию"]
+    extras: ["уксус или лимон по желанию"],
+    presetSpices: ["black-pepper", "bay-leaf", "allspice", "coriander"]
   },
   kefir: {
     label: "кефирный маринад",
-    extras: ["кефир", "чеснок", "укроп или кинза"]
+    extras: ["кефир", "укроп или кинза"],
+    presetSpices: ["garlic", "black-pepper", "coriander", "sweet-paprika"]
   },
   spicy: {
     label: "острый маринад",
-    extras: ["аджика", "копчёная паприка", "перец чили"]
+    extras: ["аджика"],
+    presetSpices: ["smoked-paprika", "chili-flakes", "cayenne", "garlic", "coriander"]
   },
   dry: {
     label: "сухой руб",
-    extras: ["паприка", "кориандр", "масло для обмазки"]
+    extras: ["масло для обмазки"],
+    presetSpices: ["sweet-paprika", "smoked-paprika", "coriander", "garlic", "black-pepper"],
+    baseName: "масло для сухого руба",
+    basePerKg: 35,
+    oilPerKg: 35
+  },
+  "fish-lemon": {
+    label: "лимонно-травяной маринад",
+    extras: ["лимон", "укроп", "петрушка", "оливковое масло"],
+    presetSpices: ["white-pepper", "lemon-pepper", "dill-seed", "oregano"],
+    baseName: "лимонный сок и оливковое масло",
+    basePerKg: 45,
+    oilPerKg: 20,
+    nutrition: "lemonOil"
+  },
+  "fish-soy": {
+    label: "соево-имбирный маринад",
+    extras: ["соевый соус", "имбирь", "чеснок", "кунжутное масло"],
+    presetSpices: ["ginger", "garlic", "sesame", "white-pepper"],
+    baseName: "соевый соус с имбирём",
+    basePerKg: 55,
+    oilPerKg: 15,
+    nutrition: "soyGinger"
+  },
+  "fish-mustard": {
+    label: "горчично-медовый маринад",
+    extras: ["дижонская горчица", "мёд", "лимонный сок"],
+    presetSpices: ["mustard", "white-pepper", "lemon-pepper", "dill-seed"],
+    baseName: "горчица, мёд и лимон",
+    basePerKg: 40,
+    oilPerKg: 15,
+    nutrition: "mustardHoney"
+  },
+  "fish-dry": {
+    label: "сухой рыбный руб",
+    extras: ["лимонная цедра", "немного масла"],
+    presetSpices: ["white-pepper", "lemon-pepper", "dill-seed", "thyme"],
+    baseName: "масло для рыбного руба",
+    basePerKg: 25,
+    oilPerKg: 25,
+    nutrition: "oil"
   }
+};
+
+const cutCatalog = {
+  pork: [
+    { value: "pork-neck", label: "Шея", note: "самый сочный вариант", nutrition: { kcal: 267, protein: 16, fat: 22, carbs: 0 } },
+    { value: "pork-shoulder", label: "Лопатка", note: "мягкая, если нарезать средне", nutrition: { kcal: 257, protein: 16, fat: 21, carbs: 0 } },
+    { value: "pork-tenderloin", label: "Вырезка", note: "не передерживать на жаре", nutrition: { kcal: 143, protein: 19.4, fat: 7.1, carbs: 0 } },
+    { value: "pork-loin", label: "Корейка без кости", note: "лучше с маслом в маринаде", nutrition: { kcal: 242, protein: 17, fat: 19, carbs: 0 } }
+  ],
+  chicken: [
+    { value: "chicken-thigh", label: "Филе бедра", note: "лучше всего для шашлыка", nutrition: { kcal: 185, protein: 18.5, fat: 11.8, carbs: 0 } },
+    { value: "chicken-drumstick", label: "Голень", note: "жарить чуть дольше", nutrition: { kcal: 172, protein: 18, fat: 10.5, carbs: 0 } },
+    { value: "chicken-wing", label: "Крылья", note: "быстро подрумяниваются", nutrition: { kcal: 222, protein: 18.3, fat: 16, carbs: 0 } },
+    { value: "chicken-breast", label: "Грудка", note: "мариновать мягко и не сушить", nutrition: { kcal: 113, protein: 23.6, fat: 1.9, carbs: 0 } }
+  ],
+  turkey: [
+    { value: "turkey-thigh", label: "Филе бедра", note: "самый сочный вариант", nutrition: { kcal: 144, protein: 19.5, fat: 6.8, carbs: 0 } },
+    { value: "turkey-breast", label: "Грудка", note: "лучше кефирный или масляный маринад", nutrition: { kcal: 104, protein: 23, fat: 1.5, carbs: 0 } },
+    { value: "turkey-tenderloin", label: "Малая вырезка", note: "не передерживать", nutrition: { kcal: 110, protein: 24, fat: 1.6, carbs: 0 } }
+  ],
+  beef: [
+    { value: "beef-tenderloin", label: "Вырезка", note: "мягкая, быстро жарится", nutrition: { kcal: 158, protein: 20.5, fat: 8, carbs: 0 } },
+    { value: "beef-ribeye", label: "Толстый край", note: "сочный вариант с жирком", nutrition: { kcal: 260, protein: 18.8, fat: 20.5, carbs: 0 } },
+    { value: "beef-striploin", label: "Тонкий край", note: "нарезать поперёк волокон", nutrition: { kcal: 214, protein: 20, fat: 14.5, carbs: 0 } },
+    { value: "beef-sirloin", label: "Оковалок", note: "мариновать дольше", nutrition: { kcal: 187, protein: 20.2, fat: 11.5, carbs: 0 } }
+  ],
+  lamb: [
+    { value: "lamb-leg", label: "Задняя нога", note: "классика для баранины", nutrition: { kcal: 209, protein: 18, fat: 15, carbs: 0 } },
+    { value: "lamb-shoulder", label: "Лопатка", note: "сочная и ароматная", nutrition: { kcal: 234, protein: 17.5, fat: 18, carbs: 0 } },
+    { value: "lamb-loin", label: "Корейка", note: "быстро жарится", nutrition: { kcal: 287, protein: 16.5, fat: 24, carbs: 0 } },
+    { value: "lamb-ribs", label: "Рёбрышки", note: "хороши на решётке", nutrition: { kcal: 294, protein: 16, fat: 25, carbs: 0 } }
+  ],
+  salmon: [
+    { value: "salmon-steak", label: "Стейк", note: "держит форму на решётке", nutrition: { kcal: 208, protein: 20, fat: 13, carbs: 0 } },
+    { value: "salmon-fillet", label: "Филе на коже", note: "жарить кожей вниз", nutrition: { kcal: 206, protein: 20.4, fat: 13.4, carbs: 0 } }
+  ],
+  trout: [
+    { value: "trout-steak", label: "Стейк", note: "удобно жарить на решётке", nutrition: { kcal: 148, protein: 20.5, fat: 6.6, carbs: 0 } },
+    { value: "trout-fillet", label: "Филе на коже", note: "не пересушивать", nutrition: { kcal: 141, protein: 20, fat: 6, carbs: 0 } }
+  ],
+  cod: [
+    { value: "cod-loin", label: "Спинка", note: "плотнее обычного филе", nutrition: { kcal: 82, protein: 18, fat: 0.7, carbs: 0 } },
+    { value: "cod-fillet", label: "Филе", note: "лучше на решётке или в фольге", nutrition: { kcal: 78, protein: 17.5, fat: 0.6, carbs: 0 } }
+  ],
+  mackerel: [
+    { value: "mackerel-whole", label: "Целая тушка", note: "хороша на решётке", nutrition: { kcal: 191, protein: 18, fat: 13.2, carbs: 0 } },
+    { value: "mackerel-steak", label: "Стейки", note: "быстро маринуются", nutrition: { kcal: 191, protein: 18, fat: 13.2, carbs: 0 } }
+  ],
+  pikeperch: [
+    { value: "pikeperch-fillet", label: "Филе", note: "нежное, нужен мягкий жар", nutrition: { kcal: 84, protein: 18.4, fat: 1.1, carbs: 0 } },
+    { value: "pikeperch-steak", label: "Стейки", note: "лучше держат форму", nutrition: { kcal: 84, protein: 18.4, fat: 1.1, carbs: 0 } }
+  ]
 };
 
 const spiceCatalog = [
@@ -231,6 +326,8 @@ const ingredientNutrition = {
   mineral: { kcal: 0, protein: 0, fat: 0, carbs: 0 },
   pomegranate: { kcal: 64, protein: 0.3, fat: 0, carbs: 14.5 },
   lemonOil: { kcal: 300, protein: 0, fat: 30, carbs: 6 },
+  soyGinger: { kcal: 70, protein: 6, fat: 1, carbs: 8 },
+  mustardHoney: { kcal: 180, protein: 4, fat: 5, carbs: 28 },
   spices: { kcal: 280, protein: 10, fat: 9, carbs: 40 }
 };
 
@@ -238,6 +335,9 @@ const heroSlides = document.querySelectorAll(".hero__media");
 const form = document.querySelector("#plannerForm");
 const quickButtons = document.querySelectorAll(".quick");
 const cookDate = document.querySelector("#cookDate");
+const meatSelect = document.querySelector("#meat");
+const cutSelect = document.querySelector("#cut");
+const styleSelect = document.querySelector("#style");
 const copyButton = document.querySelector("#copyButton");
 const spiceOptions = document.querySelector("#spiceOptions");
 const selectCoreSpices = document.querySelector("#selectCoreSpices");
@@ -257,6 +357,7 @@ const output = {
   fat: document.querySelector("#fat"),
   carbs: document.querySelector("#carbs"),
   nutritionNote: document.querySelector("#nutritionNote"),
+  warningMessage: document.querySelector("#warningMessage"),
   shoppingList: document.querySelector("#shoppingList"),
   stepsList: document.querySelector("#stepsList")
 };
@@ -313,6 +414,8 @@ function addNutrition(total, nutrition, grams) {
 }
 
 function getBaseNutrition(styleKey, recipe) {
+  const style = styles[styleKey];
+  if (style?.nutrition) return ingredientNutrition[style.nutrition];
   if (styleKey === "kefir") return ingredientNutrition.kefir;
   if (recipe === recipes.lamb) return ingredientNutrition.pomegranate;
   if (recipe.type === "fish") return ingredientNutrition.lemonOil;
@@ -320,9 +423,9 @@ function getBaseNutrition(styleKey, recipe) {
   return ingredientNutrition.mineral;
 }
 
-function calculateNutrition({ recipe, styleKey, weight, onion, base, oil, spices }) {
+function calculateNutrition({ recipe, cut, styleKey, weight, onion, base, oil, spices }) {
   const total = { kcal: 0, protein: 0, fat: 0, carbs: 0 };
-  addNutrition(total, recipe.nutrition, weight * 1000);
+  addNutrition(total, cut?.nutrition ?? recipe.nutrition, weight * 1000);
   addNutrition(total, ingredientNutrition.onion, onion * 1000);
   addNutrition(total, ingredientNutrition.oil, oil);
   addNutrition(total, getBaseNutrition(styleKey, recipe), base);
@@ -337,6 +440,93 @@ function renderList(target, items) {
     li.textContent = item;
     target.append(li);
   });
+}
+
+function renderTooMuchWarning() {
+  output.headline.textContent = "Слишком много шашлыка";
+  output.warningMessage.hidden = false;
+  output.daysLeft.textContent = "не считаю";
+  output.marinateWindow.textContent = "не считаю";
+  output.startTime.textContent = "не считаю";
+  output.salt.textContent = "0 г";
+  output.spices.textContent = "0 г";
+  output.onion.textContent = "0 г";
+  output.marinade.textContent = "0 мл";
+  output.calories.textContent = "0 ккал";
+  output.protein.textContent = "0 г";
+  output.fat.textContent = "0 г";
+  output.carbs.textContent = "0 г";
+  output.nutritionNote.textContent = "расчет остановлен";
+  renderList(output.shoppingList, []);
+  renderList(output.stepsList, []);
+}
+
+function clearSpiceChecks() {
+  form.querySelectorAll('input[name="spice"]').forEach((input) => {
+    input.checked = false;
+    input.disabled = false;
+    input.closest(".spice-check")?.classList.remove("is-locked");
+  });
+}
+
+function applyStylePresetSpices() {
+  const style = styles[styleSelect.value];
+  const preset = new Set(style?.presetSpices ?? []);
+
+  form.querySelectorAll('input[name="spice"]').forEach((input) => {
+    const locked = styleSelect.value !== "custom" && preset.has(input.value);
+    input.checked = locked;
+    input.disabled = locked;
+    input.closest(".spice-check")?.classList.toggle("is-locked", locked);
+  });
+}
+
+function isStyleAllowedForRecipe(styleKey, recipe) {
+  const option = styleSelect.querySelector(`option[value="${styleKey}"]`);
+  if (!option) return false;
+  const kind = option.dataset.kind;
+  if (kind === "all") return true;
+  return recipe.type === "fish" ? kind === "fish" : kind === "meat";
+}
+
+function updateStyleOptions({ resetInvalid = true } = {}) {
+  const recipe = recipes[meatSelect.value];
+  const isFish = recipe.type === "fish";
+
+  Array.from(styleSelect.options).forEach((option) => {
+    const kind = option.dataset.kind;
+    const visible = kind === "all" || (isFish ? kind === "fish" : kind === "meat");
+    option.hidden = !visible;
+    option.disabled = !visible;
+  });
+
+  if (resetInvalid && !isStyleAllowedForRecipe(styleSelect.value, recipe)) {
+    styleSelect.value = isFish ? "fish-lemon" : "classic";
+    applyStylePresetSpices();
+  }
+}
+
+function updateCutOptions() {
+  const cuts = cutCatalog[meatSelect.value] ?? [];
+  const current = cutSelect.value;
+  cutSelect.innerHTML = "";
+
+  cuts.forEach((cut) => {
+    const option = document.createElement("option");
+    option.value = cut.value;
+    option.textContent = cut.label;
+    option.dataset.note = cut.note;
+    cutSelect.append(option);
+  });
+
+  if (cuts.some((cut) => cut.value === current)) {
+    cutSelect.value = current;
+  }
+}
+
+function getSelectedCut() {
+  const cuts = cutCatalog[meatSelect.value] ?? [];
+  return cuts.find((cut) => cut.value === cutSelect.value) ?? cuts[0];
 }
 
 function startHeroSlider() {
@@ -383,7 +573,7 @@ function renderSpiceOptions() {
       input.type = "checkbox";
       input.name = "spice";
       input.value = id;
-      input.checked = coreSpices.includes(id);
+      input.checked = false;
 
       const text = document.createElement("span");
       text.textContent = name;
@@ -402,7 +592,9 @@ function renderSpiceOptions() {
 }
 
 function getSelectedSpices(weight) {
-  const selected = new Set(new FormData(form).getAll("spice"));
+  const selected = new Set(
+    Array.from(form.querySelectorAll('input[name="spice"]:checked')).map((input) => input.value)
+  );
   return flattenSpices()
     .filter((spice) => selected.has(spice.id))
     .map((spice) => ({
@@ -439,11 +631,15 @@ function buildPlan(daysLeft, recipe, style, dateLabel) {
     plan[1] = `Натереть специями и маслом: ${start}; держать закрытым ${minHours}-${maxHours} ч.`;
   }
 
+  if (style === "fish-dry") {
+    plan[1] = `Натереть рыбу сухими специями и небольшим количеством масла: ${start}; держать ${minHours}-${maxHours} ч.`;
+  }
+
   if (style === "custom") {
     plan[1] = `Собрать свой набор специй, смешать с солью и маслом, затем замариновать: ${start}; окно ${minHours}-${maxHours} ч.`;
   }
 
-  if (recipe.type === "fish") {
+  if (recipe.type === "fish" && style !== "fish-dry") {
     plan[1] = "Мариновать рыбу коротко: 30-120 минут перед жаркой, иначе кислота начнет менять текстуру.";
   }
 
@@ -454,33 +650,46 @@ function calculate() {
   const data = new FormData(form);
   const meat = data.get("meat");
   const styleKey = data.get("style");
-  const weight = Math.max(0.3, Number(data.get("weight")) || 0.3);
+  const rawWeight = Number(data.get("weight"));
+  if (rawWeight >= 300) {
+    renderTooMuchWarning();
+    return {
+      headline: output.headline.textContent,
+      dateLabel: "",
+      style: "",
+      shopping: [],
+      plan: []
+    };
+  }
+
+  output.warningMessage.hidden = true;
+
+  const weight = Math.max(0.3, rawWeight || 0.3);
   const targetDate = cookDate.value ? new Date(`${cookDate.value}T00:00:00`) : addDays(1);
   const recipe = recipes[meat];
+  const cut = getSelectedCut();
   const style = styles[styleKey];
   const daysLeft = getDaysLeft(targetDate);
   const selectedSpices = getSelectedSpices(weight);
 
   const salt = recipe.salt * weight;
-  const baseSpices = styleKey === "custom" ? 0 : recipe.spices * weight;
-  const extraSpices = selectedSpices.reduce((total, spice) => total + spice.total, 0);
-  const spices = baseSpices + extraSpices;
+  const spices = selectedSpices.reduce((total, spice) => total + spice.total, 0);
   const onion = recipe.onion * weight;
-  const base = styleKey === "dry" || styleKey === "custom" ? 35 * weight : recipe.base * weight;
-  const oil = styleKey === "dry" ? 35 * weight : 25 * weight;
+  const base = (style.basePerKg ?? (styleKey === "custom" ? 35 : recipe.base)) * weight;
+  const oil = (style.oilPerKg ?? 25) * weight;
   const dateLabel = formatDate(targetDate);
   const dayText = daysLeft === 0 ? "сегодня" : daysLeft > 0 ? `${daysLeft} ${pluralDays(daysLeft)}` : "в прошлом";
 
-  output.headline.textContent = `${round(weight, 1)} кг ${recipe.name}`;
+  output.headline.textContent = `${round(weight, 1)} кг ${recipe.name}${cut ? `, ${cut.label.toLowerCase()}` : ""}`;
   output.daysLeft.textContent = dayText;
   output.marinateWindow.textContent = `${recipe.marinate[0]}-${recipe.marinate[1]} часов`;
   output.startTime.textContent = getStartText(daysLeft, recipe.marinate[1]);
   output.salt.textContent = `${Math.round(salt)} г`;
   output.spices.textContent = `${Math.round(spices)} г`;
-  output.onion.textContent = formatWeight(onion);
+  output.onion.textContent = onion > 0 ? formatWeight(onion) : "не нужен";
   output.marinade.textContent = formatMl(base);
 
-  const nutrition = calculateNutrition({ recipe, styleKey, weight, onion, base, oil, spices });
+  const nutrition = calculateNutrition({ recipe, cut, styleKey, weight, onion, base, oil, spices });
   output.calories.textContent = `${Math.round(nutrition.kcal)} ккал`;
   output.protein.textContent = `${Math.round(nutrition.protein)} г`;
   output.fat.textContent = `${Math.round(nutrition.fat)} г`;
@@ -488,23 +697,19 @@ function calculate() {
   output.nutritionNote.textContent = `примерно на ${round(weight, 1)} кг мяса с маринадом`;
 
   const selectedSpiceLines = selectedSpices.map((spice) => `${Math.max(1, Math.round(spice.total))} г: ${spice.name}`);
-  const spiceLines = styleKey === "custom"
-    ? selectedSpiceLines
-    : [`${Math.round(baseSpices)} г базовой смеси специй`, ...style.extras, ...selectedSpiceLines];
-  const baseLine = styleKey === "dry"
-    ? "масло для сухого руба"
-    : styleKey === "custom"
+  const spiceLines = [...style.extras, ...selectedSpiceLines];
+  const baseLine = styleKey === "custom"
       ? "масло, чтобы связать выбранные специи"
-      : recipe.baseName;
+      : style.baseName ?? recipe.baseName;
 
   if (styleKey === "custom" && spiceLines.length === 0) {
     spiceLines.push("специи по вкусу: выберите чекбоксы в модуле специй");
   }
 
   const shopping = [
-    `${formatWeight(weight)} ${recipe.name}`,
+    `${formatWeight(weight)} ${recipe.name}${cut ? `: ${cut.label.toLowerCase()}` : ""}`,
     `${Math.round(salt)} г соли`,
-    `${formatWeight(onion)} лука`,
+    ...(onion > 0 ? [`${formatWeight(onion)} лука`] : []),
     `${formatMl(base)}: ${baseLine}`,
     `${formatMl(oil)} растительного масла`,
     ...spiceLines,
@@ -513,7 +718,11 @@ function calculate() {
   ];
 
   renderList(output.shoppingList, shopping);
-  renderList(output.stepsList, buildPlan(daysLeft, recipe, styleKey, dateLabel));
+  const plan = buildPlan(daysLeft, recipe, styleKey, dateLabel);
+  if (cut?.note) {
+    plan.splice(1, 0, `Часть: ${cut.label.toLowerCase()} — ${cut.note}.`);
+  }
+  renderList(output.stepsList, plan);
 
   return {
     headline: output.headline.textContent,
@@ -535,6 +744,13 @@ quickButtons.forEach((button) => {
 });
 
 selectCoreSpices.addEventListener("click", () => {
+  if (styleSelect.value !== "custom") {
+    clearSpiceChecks();
+    applyStylePresetSpices();
+    calculate();
+    return;
+  }
+
   form.querySelectorAll('input[name="spice"]').forEach((input) => {
     input.checked = coreSpices.includes(input.value);
   });
@@ -542,13 +758,33 @@ selectCoreSpices.addEventListener("click", () => {
 });
 
 clearSpices.addEventListener("click", () => {
-  form.querySelectorAll('input[name="spice"]').forEach((input) => {
-    input.checked = false;
-  });
+  clearSpiceChecks();
+  if (styleSelect.value !== "custom") {
+    applyStylePresetSpices();
+  }
   calculate();
 });
 
-form.addEventListener("input", () => {
+meatSelect.addEventListener("change", () => {
+  updateCutOptions();
+  updateStyleOptions();
+  quickButtons.forEach((button) => button.classList.remove("active"));
+  calculate();
+});
+
+cutSelect.addEventListener("change", () => {
+  quickButtons.forEach((button) => button.classList.remove("active"));
+  calculate();
+});
+
+styleSelect.addEventListener("change", () => {
+  clearSpiceChecks();
+  if (styleSelect.value !== "custom") applyStylePresetSpices();
+  calculate();
+});
+
+form.addEventListener("input", (event) => {
+  if (event.target === meatSelect || event.target === cutSelect || event.target === styleSelect) return;
   quickButtons.forEach((button) => button.classList.remove("active"));
   calculate();
 });
@@ -579,7 +815,18 @@ copyButton.addEventListener("click", async () => {
   }
 });
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {
+      // The app still works online if registration is blocked by the browser.
+    });
+  });
+}
+
 renderSpiceOptions();
+updateCutOptions();
+updateStyleOptions({ resetInvalid: false });
+applyStylePresetSpices();
 startHeroSlider();
 cookDate.value = toInputDate(addDays(1));
 calculate();

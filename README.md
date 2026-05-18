@@ -33,6 +33,21 @@
 1. Скачайте или клонируйте репозиторий.
 2. Откройте `index.html` в браузере.
 
+## Мобильное приложение
+
+Проект подготовлен для Android и iPhone через Capacitor.
+
+```bash
+npm install
+cp .env.example .env
+npm run build
+npx cap add android
+npx cap add ios
+npx cap sync
+```
+
+Реклама подключена через Google AdMob в `src/mobile-ads.js`. Перед публикацией замените тестовые рекламные ID в `.env` на реальные ID из AdMob и добавьте native App ID в `AndroidManifest.xml` и `Info.plist` по инструкции из `STORE_RELEASE.md`.
+
 ## Структура
 
 ```text

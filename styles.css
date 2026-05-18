@@ -20,9 +20,20 @@
 body {
   margin: 0;
   min-height: 100vh;
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
   font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
   background: var(--paper);
   color: var(--ink);
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: rgba(187, 52, 35, 0.18);
+}
+
+.has-native-ad-banner body {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
 }
 
 button,
@@ -167,6 +178,7 @@ select {
   color: var(--ink);
   background: #fff;
   outline: none;
+  font-size: max(16px, 1rem);
 }
 
 .field-note {
@@ -263,11 +275,20 @@ button:focus-visible {
   line-height: 1.25;
 }
 
+.spice-check.is-locked {
+  border-color: rgba(47, 122, 80, 0.35);
+  background: #f2f8f0;
+}
+
 .spice-check input {
   width: 18px;
   min-height: 18px;
   margin: 0;
   accent-color: var(--herb);
+}
+
+.spice-check input:disabled {
+  cursor: not-allowed;
 }
 
 .spice-dose {
@@ -318,6 +339,13 @@ button:focus-visible {
   margin: 0;
   font-size: clamp(1.55rem, 3vw, 2.35rem);
   line-height: 1.08;
+}
+
+.warning-message {
+  margin: 12px 0 0;
+  color: var(--tomato);
+  font-size: 1.05rem;
+  font-weight: 850;
 }
 
 .icon-button {
@@ -421,6 +449,47 @@ button:focus-visible {
   font-size: 1rem;
 }
 
+.tips {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto 72px;
+  padding: 26px;
+}
+
+.tips__head {
+  margin-bottom: 18px;
+}
+
+.tips__head h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.tips-grid article {
+  min-height: 174px;
+  padding: 18px;
+  border: 1px solid #efe1d2;
+  border-radius: 8px;
+  background: #fffdf9;
+}
+
+.tips-grid h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.tips-grid p {
+  margin: 0;
+  color: #4b3b34;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
 ul,
 ol {
   margin: 0;
@@ -450,6 +519,10 @@ li::marker {
   .nutrition-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .tips-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -460,7 +533,8 @@ li::marker {
 
 @media (max-width: 560px) {
   .hero__content,
-  .planner {
+  .planner,
+  .tips {
     width: min(100% - 24px, 1120px);
   }
 
@@ -474,6 +548,10 @@ li::marker {
 
   .timeline,
   .toggle-group {
+    grid-template-columns: 1fr;
+  }
+
+  .tips-grid {
     grid-template-columns: 1fr;
   }
 
